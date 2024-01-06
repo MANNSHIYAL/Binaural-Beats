@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "298033113736",
+    "firebase_url": "https://binaural-beats-a6d55-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "binaural-beats-a6d55",
+    "storage_bucket": "binaural-beats-a6d55.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298033113736:android:bbf2751a46fb6758454d3d",
+        "android_client_info": {
+          "package_name": "com.example.beats"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3PoYjC1TebBwBNSg7u7BHjY9L_sox2YU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
