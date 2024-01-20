@@ -11,7 +11,7 @@ var firebaseStorage = FirebaseStorage.instance;
 var firestore = FirebaseFirestore.instance;
 
 //Pages Instance
-List<dynamic> pages = [const MusicLibrary(), ProfileScreen()];
+List<dynamic> pages = [const MusicLibrary(), const ProfileScreen()];
 
 //Auth Controller
 var authController = AuthController.instance;

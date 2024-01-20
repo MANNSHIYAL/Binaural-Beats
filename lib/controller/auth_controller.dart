@@ -2,6 +2,7 @@ import 'package:beats/constants.dart';
 import 'package:beats/model/user.dart';
 import 'package:beats/views/screens/home_screen.dart';
 import 'package:beats/views/screens/login_screen.dart';
+import 'package:beats/views/screens/verify_email.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +10,6 @@ import 'package:get/get.dart';
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<User?> _user;
-
   // ignore: unused_element
   @override
   void onReady() {
@@ -24,8 +24,12 @@ class AuthController extends GetxController {
     if (user == null) {
       Get.offAll(() => LoginScreen());
     } else {
-      printData(user);
-      Get.offAll(() => const HomeScreen());
+      if (user.emailVerified) {
+        Get.offAll(() => const HomeScreen());
+      } else {
+        print(user.email);
+        Get.offAll(() => const VerifyEMail());
+      }
     }
   }
 
@@ -47,6 +51,7 @@ class AuthController extends GetxController {
             .collection("users")
             .doc(userCredential.user!.uid)
             .set(user.toJson());
+        Get.to(() => const VerifyEMail());
       } else {
         Get.snackbar("Error creating Account",
             "Please try again and make sure all the fields are filled");
@@ -61,9 +66,8 @@ class AuthController extends GetxController {
       if (email.isNotEmpty && password.isNotEmpty) {
         await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
-        Get.snackbar("Success", "Login Successful");
       } else {
-        Get.snackbar("Error", "Please enter all the fields");
+        Get.snackbar("Error", "Something went wrong. Please try again");
       }
     } catch (e) {
       Get.snackbar("Error", "Invalid email or password");
@@ -75,7 +79,7 @@ class AuthController extends GetxController {
     Get.offAll(() => LoginScreen());
   }
 
-  String? printData(User user) {
-    return user.displayName;
+  User getUserData(User user) {
+    return user;
   }
 }

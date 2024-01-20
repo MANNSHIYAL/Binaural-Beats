@@ -30,8 +30,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 child: Text(
-                    "Hi, ${authController.printData(firebaseAuth.currentUser!)}",
-                    style: TextStyle(
+                    "Hi, ${authController.getUserData(firebaseAuth.currentUser!).displayName}",
+                    style: const TextStyle(
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
                     ))),
