@@ -1,4 +1,5 @@
 import 'package:beats/constants.dart';
+import 'package:beats/views/screens/update_user.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -7,43 +8,57 @@ class ProfileScreen extends StatefulWidget {
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
+showOptionsDialog(BuildContext context) {
+  return showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(children: [
+            SimpleDialogOption(
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const UpdateUserData())),
+              child: const Text("Update profile data"),
+            ),
+            SimpleDialogOption(
+                onPressed: () => authController.logoutUser(),
+                child: const Text(
+                  "Logout",
+                ))
+          ])
+      );
+}
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.amberAccent,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.05,
+        title: const Text("My Profile"),
+      ),
       body: SafeArea(
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Card(
             child: Container(
                 height: 70,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    )
-                  ],
                 ),
-                child: Text(
-                    "Hi, ${authController.getUserData(firebaseAuth.currentUser!).displayName}",
-                    style: const TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.bold,
-                    ))),
-          ),
-          Container(
-            alignment: Alignment.center,
-            height: 50,
-            child: Center(
-              child: ElevatedButton(
-                  onPressed: () => authController.logoutUser(),
-                  child: const Text("Logout")),
-            ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          "Hi, ${authController.getUserData(firebaseAuth.currentUser!).displayName}",
+                          style: const TextStyle(
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      IconButton(
+                          icon: const Icon(Icons.menu),
+                          onPressed: () {
+                            showOptionsDialog(context);
+                          }),
+                    ])),
           ),
         ]),
       ),

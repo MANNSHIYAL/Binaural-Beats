@@ -2,7 +2,7 @@ import 'package:beats/constants.dart';
 import 'package:beats/model/user.dart';
 import 'package:beats/views/screens/home_screen.dart';
 import 'package:beats/views/screens/login_screen.dart';
-import 'package:beats/views/screens/verify_email.dart';
+import 'package:beats/views/screens/send_verificatin_email.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -27,8 +27,7 @@ class AuthController extends GetxController {
       if (user.emailVerified) {
         Get.offAll(() => const HomeScreen());
       } else {
-        print(user.email);
-        Get.offAll(() => const VerifyEMail());
+        Get.to(() => const SendVerificationEmail());
       }
     }
   }
@@ -39,10 +38,11 @@ class AuthController extends GetxController {
         UserCredential userCredential = await firebaseAuth
             .createUserWithEmailAndPassword(email: email, password: password);
         UserData user = UserData(
-            name: name,
-            email: email,
-            password: password,
-            uid: userCredential.user!.uid);
+          name: name,
+          email: email,
+          password: password,
+          uid: userCredential.user!.uid,
+        );
         _user.update((val) {
           firebaseAuth.currentUser!.updateDisplayName(name);
         });
@@ -51,7 +51,7 @@ class AuthController extends GetxController {
             .collection("users")
             .doc(userCredential.user!.uid)
             .set(user.toJson());
-        Get.to(() => const VerifyEMail());
+        Get.to(() => const SendVerificationEmail());
       } else {
         Get.snackbar("Error creating Account",
             "Please try again and make sure all the fields are filled");
